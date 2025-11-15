@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookVerse – Home</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    font-family: 'Poppins', sans-serif;
+  }
+</style>
+</head>
+<body class="h-screen flex flex-col items-center justify-center text-center text-gray-800">
+  <h1 class="text-4xl font-bold mb-4 text-indigo-700">📚 Welcome to BookVerse</h1>
+  <p class="mb-8 text-lg">Your online library to explore and borrow your favorite books.</p>
+
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-80">
+    <h2 class="text-xl font-semibold mb-3">Login</h2>
+    <input id="username" type="text" placeholder="Enter username"
+           class="border p-2 w-full mb-3 rounded">
+    <input id="password" type="password" placeholder="Enter password"
+           class="border p-2 w-full mb-3 rounded">
+    <button id="loginBtn"
+            class="bg-indigo-600 text-white w-full py-2 rounded hover:bg-indigo-700">Login</button>
+    <p id="msg" class="text-red-600 mt-2"></p>
+  </div>
+
+  <!-- Direct navigation link -->
+  <a href="books.html" class="text-blue-700 underline block mt-4">Go to Books Page</a>
+
+  <script>
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const u = document.getElementById("username").value.trim();
+      const p = document.getElementById("password").value.trim();
+      const msg = document.getElementById("msg");
+      if (u !== "" && p !== "") {
+        localStorage.setItem("username", u);
+        window.location.href = "books.html";
+      } else {
+        msg.textContent = "Please enter username and password!";
+      }
+    });
+  </script>
+</body>
+</html>

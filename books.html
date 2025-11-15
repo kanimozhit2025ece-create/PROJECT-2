@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Available Books – BookVerse</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-100 to-blue-200 min-h-screen p-6">
+
+<!-- Navigation bar -->
+<header class="flex justify-between items-center mb-6 bg-white p-3 rounded-lg shadow">
+  <h1 class="text-xl font-bold text-indigo-700">📚 BookVerse</h1>
+  <nav class="space-x-4">
+    <a href="index...html" class="text-blue-700 hover:underline">Home</a>
+    <a href="books.html" class="text-indigo-800 font-bold underline">Books</a>
+    <a href="mybooks.html" class="text-blue-700 hover:underline">My Books</a>
+  </nav>
+</header>
+
+<h2 id="userWelcome" class="text-xl font-semibold text-gray-700 mb-4"></h2>
+
+<!-- Search bar -->
+<input type="text" id="searchBar" placeholder="Search books..."
+       class="border p-2 rounded w-full mb-4">
+
+<div id="bookList" class="grid md:grid-cols-3 gap-4"></div>
+
+<script>
+  const username = localStorage.getItem("username") || "Reader";
+  document.getElementById("userWelcome").textContent = "👋 Welcome, " + username + "!";
+
+  const books = [
+    { title: "The Alchemist", author: "Paulo Coelho" },
+    { title: "1984", author: "George Orwell" },
+    { title: "To Kill a Mockingbird", author: "Harper Lee" },
+    { title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
+    { title: "Harry Potter", author: "J.K. Rowling" },
+    { title: "The Hobbit", author: "J.R.R. Tolkien" }
+  ];
+
+  let available = [...books];
+  let borrowed = JSON.parse(localStorage.getItem("myBooks")) || [];
+
+  function renderBooks(filter = "") {
+    const container = document.getElementById("bookList");
+    container.innerHTML = "";
+    available
+      .filter(b => b.title.toLowerCase().includes(filter.toLowerCase()))
+      .forEach((book, i) => {
+        const card = document.createElement("div");
+        card.className = "bg-white p-4 rounded shadow hover:shadow-lg transition";
+        card.innerHTML = `
+          <h3 class="font-bold text-lg">${book.title}</h3>
+          <p class="text-gray-600 mb-2">${book.author}</p>
+          <button class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700">Borrow</button>
+        `;
+        card.querySelector("button").addEventListener("click", () => {
+          borrowed.push(book);
+          localStorage.setItem("myBooks", JSON.stringify(borrowed));
+          alert(book.title + " added to My Books!");
+        });
+        container.appendChild(card);
+      });
+  }
+  renderBooks();
+  document.getElementById("searchBar").addEventListener("keyup", e => renderBooks(e.target.value));
+</script>
+</body>
+</html>
